@@ -147,7 +147,7 @@ local highlight_groups = {
 	end,
 	debugBreakpoint = "ErrorMsg",
 	debugPC = "ColorColumn",
-	LineNr = { fg = gray_darker },
+	LineNr = { fg = gray_dark },
 	QuickFixLine = function(self)
 		return { bg = self.StatusLine.bg }
 	end,
