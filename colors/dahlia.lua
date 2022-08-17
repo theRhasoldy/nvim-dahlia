@@ -11,15 +11,15 @@ vim.g.colors_name = "dahlia"
 
 local black = { "#0F1115", 235, "black" }
 local gray_darker = { "#36383c", 239, "darkergray" }
-local gray_dark = { "#414347", 236, "darkgrey" }
+local gray_dark = { "#3c3e42", 236, "darkgrey" }
 local gray = { "#707276", 244, "gray" }
 local gray_light = { "#c0c2c6", 250, "lightgray" }
 local white = { "#eeeeee", 231, "white" }
 
-local cursor_line = { "#222024", 232, "cursorline" }
+local cursor_line = { "#1a1c2a", 232, "cursorline" }
 
-local red_dark = { "#fa235d", 124, "darkred" }
-local red = { "#dd4e6d", 203, "red" }
+local red_dark = { "#c92b47", 124, "darkred" }
+local red = { "#e64e6d", 203, "red" }
 
 local tan = { "#E59875", 221, "tan" }
 local yellow = { "#fbb45e", 227, "yellow" }
@@ -28,18 +28,13 @@ local orange = { "#F38337", 208, "orange" }
 local green_dark = { "#028044", 113, "darkgreen" }
 local green = { "#4DCB8F", 46, "green" }
 
-local turqoise = { "#3DC3AD", 48, "turqoise" }
-
-local blue = { "#2b9cc1", 63, "darkblue" }
-local cyan = { "#33dbc3", 80, "cyan" }
-local ice = { "#95c5ff", 111, "ice" }
-local teal = { "#60afff", 75, "teal" }
+local turqoise = { "#66c8aa", 48, "turqoise" }
+local blue = { "#3a9cc1", 63, "darkblue" }
 
 local pink = { "#fbaeb9", 217, "lightpink" }
-local magenta = { "#da7893", 168, "magenta" }
+local magenta = { "#e583a0", 168, "magenta" }
 local magenta_dark = { "#b14f6a", 126, "darkmagenta" }
-local purple = { "#c77cd1", 171, "purple" }
-local purple_light = { "#af60af", 133, "lightpurple" }
+local purple = { "#c37dbf", 171, "purple" }
 
 local highlight_group_normal = { fg = gray_light }
 
@@ -65,18 +60,21 @@ local highlight_groups = {
 	Identifier = { fg = turqoise },
 	Function = { fg = red },
 	Class = { fg = purple, style = "italic" },
+	Parameter = { fg = tan },
+	Attribute = { fg = green },
 
 	--[[ 4.1.3. Syntax]]
-	Statement = { fg = ice },
+	Statement = { fg = turqoise },
 	Conditional = { fg = blue, style = "italic" },
 	Repeat = { fg = turqoise, style = "italic" },
 	Label = { fg = pink, style = "bold" },
 	Operator = { fg = gray_light },
 	Keyword = { fg = blue },
-	Exception = { fg = pink, style = "bold" },
+	Exception = { fg = orange, style = "bold" },
 	Noise = "Delimiter",
 	Variable = { fg = magenta },
 	VariableItalic = { fg = magenta, style = "italic" },
+	Return = { fg = purple },
 	Field = { fg = red },
 
 	--[[ 4.1.4. Metatextual Information]]
@@ -91,7 +89,7 @@ local highlight_groups = {
 	Type = { fg = purple },
 	StorageClass = { fg = orange, style = "bold" },
 	Structure = { fg = blue, style = "bold" },
-	Typedef = { fg = cyan, style = "italic" },
+	Typedef = { fg = turqoise, style = "italic" },
 
 	--[[ 4.1.6. Edge Cases]]
 	Special = { fg = blue, style = "bold" },
@@ -135,7 +133,7 @@ local highlight_groups = {
 		return { fg = self.TabLine.fg, bg = highlight_group_normal.bg }
 	end,
 	Title = { style = "bold" },
-	VertSplit = { fg = cursor_line },
+	VertSplit = { fg = gray_darker },
 	Border = { fg = gray_darker },
 	BorderBG = { fg = gray_darker },
 
@@ -163,7 +161,7 @@ local highlight_groups = {
 
 	--[[ 4.2.5. Folds]]
 	FoldColumn = { bg = gray_darker, style = "bold" },
-	Folded = { fg = black, bg = purple_light, style = "italic" },
+	Folded = { fg = black, bg = purple, style = "italic" },
 
 	--[[ 4.2.6. Diffs]]
 	DiffAdd = { fg = black, bg = green_dark },
@@ -199,7 +197,7 @@ local highlight_groups = {
 	Question = { fg = orange, style = "underline" },
 
 	--[[ 4.2.11. LSP / Diagnostics ]]
-	DiagnosticError = "Error",
+	Diagnostturqoiserror = "Error",
 	DiagnosticFloatingError = "ErrorMsg",
 	DiagnosticSignError = "DiagnosticFloatingError",
 
@@ -220,7 +218,7 @@ local highlight_groups = {
 	DiagnosticUnderlineInfo = {},
 	DiagnosticUnderlineWarn = {},
 
-	LspDiagnosticsDefaultError = "DiagnosticError",
+	LspDiagnosticsDefaultError = "Diagnostturqoiserror",
 	LspDiagnosticsFloatingError = "DiagnosticFloatingError",
 	LspDiagnosticsSignError = "DiagnosticSignError",
 
@@ -260,10 +258,11 @@ local highlight_groups = {
 	TSConstBuiltIn = "Include",
 	TSFunction = "Function",
 	TSField = "Field",
-	TSParameter = "Special",
+	TSParameter = "Parameter",
+	TSAttribute = "Attribute",
 	TSProperty = "Special",
 	TSkeyword = "Special",
-	TSkeywordReturn = "Exception",
+	TSkeywordReturn = "Return",
 
 	--[[ 4.3.4. CSS ]]
 	cssTSProperty = "Function",
@@ -281,6 +280,36 @@ local highlight_groups = {
 	dartTSType = "Variable",
 	dartTSProperty = "Identifier",
 	dartTSKeyword = "SpecialItalic",
+
+	--[[ 4.3.13. Markdown ]]
+	markdownCode = "mkdCode",
+	markdownCodeDelimiter = "mkdCodeDelimiter",
+	markdownH1 = { fg = blue, style = "bold" },
+	markdownH2 = { fg = orange, style = "bold" },
+	markdownH3 = { fg = yellow, style = "bold" },
+	markdownH4 = { fg = green_dark, style = "bold" },
+	markdownH5 = { fg = turqoise, style = "bold" },
+	markdownH6 = { fg = purple, style = "bold" },
+	markdownLinkDelimiter = "mkdDelimiter",
+	markdownLinkText = "mkdLink",
+	markdownLinkTextDelimiter = "markdownLinkDelimiter",
+	markdownUrl = "mkdURL",
+	mkdBold = "Ignore",
+	mkdBoldItalic = "mkdBold",
+	mkdCode = "Keyword",
+	mkdCodeDelimiter = "mkdBold",
+	mkdCodeEnd = "mkdCodeStart",
+	mkdCodeStart = "mkdCodeDelimiter",
+	mkdDelimiter = "Delimiter",
+	mkdHeading = "Delimiter",
+	mkdItalic = "mkdBold",
+	mkdLineBreak = "NonText",
+	mkdLink = "Underlined",
+	mkdListItem = "Special",
+	mkdRule = function(self)
+		return { fg = self.Ignore.fg, style = { "underline", color = self.Delimiter.fg } }
+	end,
+	mkdURL = "htmlString",
 
 	--]]
 
@@ -387,7 +416,7 @@ local highlight_groups = {
 	end,
 	TodoFgNOTE = "HintMsg",
 	TodoFgPERF = "InfoMsg",
-	TodoFgTODO = { fg = cyan, style = "italic" },
+	TodoFgTODO = { fg = turqoise, style = "italic" },
 	TodoFgWARN = function(self)
 		return { fg = self.WarningMsg.fg }
 	end,
@@ -404,7 +433,7 @@ local highlight_groups = {
 	TodoBgPERF = function(self)
 		return { fg = black, bg = self.Info.bg, style = { "bold", "italic", "nocombine" } }
 	end,
-	TodoBgTODO = { fg = black, bg = cyan, style = { "bold", "italic", "nocombine" } },
+	TodoBgTODO = { fg = black, bg = turqoise, style = { "bold", "italic", "nocombine" } },
 	TodoBgWARN = function(self)
 		return { fg = black, bg = self.Warning.bg, style = { "bold", "italic", "nocombine" } }
 	end,
@@ -415,6 +444,8 @@ local highlight_groups = {
 	TodoSignPERF = "TodoFgPERF",
 	TodoSignTODO = "TodoFgTODO",
 	TodoSignWARN = "TodoFgWARN",
+
+	Twilight = { fg = gray_dark, bg = nil },
 
 	--[[ 4.4.16. nvim-cmp ]]
 	CmpItemAbbrDefault = "Operator",
@@ -457,26 +488,12 @@ local highlight_groups = {
 		return { fg = green, style = self.packerFail.style }
 	end,
 
-	--[[ 4.4.18. nvim-tree ]]
-	NvimTreeNormal = "File",
-	NvimTreeSpecialFile = "Special",
-	NvimTreeRootFolder = "Marker",
-	NvimTreeFolderIcon = "DirectoryIcon",
-	NvimTreeIndentMarker = "Marker",
-	NvimTreeImageFile = "Image",
-	NvimTreeGitDeleted = function(self)
-		return { fg = self.DiffDelete.bg }
-	end,
-	NvimTreeGitDirty = { fg = orange },
-	NvimTreeGitIgnored = "Ignore",
-	NvimTreeGitMerge = "NvimTreeGitRenamed",
-	NvimTreeGitNew = function(self)
-		return { fg = self.DiffAdd.bg }
-	end,
-	NvimTreeGitRenamed = function(self)
-		return { fg = self.DiffChange.bg }
-	end,
-	NvimTreeGitStaged = { fg = cyan },
+	--Neo-tree
+	NeoTreeRootName = "Special",
+	NeoTreeFileName = "File",
+	NeoTreeGitModified = "GitGutterChangeDelete",
+	NeoTreeGitDeleted = "GitGutterDelete",
+	NeoTreeGitAdded = "GitGutterAdd",
 
 	-- Telescope
 	TelescopeBorder = "Border",
@@ -497,7 +514,7 @@ local terminal_colors = {
 	[4] = orange,
 	[5] = blue,
 	[6] = magenta_dark,
-	[7] = teal,
+	[7] = purple,
 	[8] = gray,
 	[9] = gray_dark,
 	[10] = red,
@@ -505,7 +522,7 @@ local terminal_colors = {
 	[12] = yellow,
 	[13] = turqoise,
 	[14] = purple,
-	[15] = cyan,
+	[15] = turqoise,
 	[16] = gray_light,
 }
 
