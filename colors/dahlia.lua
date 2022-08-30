@@ -16,7 +16,7 @@ local gray = { "#707276", 244, "gray" }
 local gray_light = { "#c0c2c6", 250, "lightgray" }
 local white = { "#eeeeee", 231, "white" }
 
-local cursor_line = { "#1a1c2a", 232, "cursorline" }
+local cursor_line = { "#242634", 232, "cursorline" }
 
 local red_dark = { "#c92b47", 124, "darkred" }
 local red = { "#e64e6d", 203, "red" }
@@ -109,7 +109,7 @@ local highlight_groups = {
 	Error = { fg = red_dark, style = "bold" },
 	Todo = { fg = yellow, style = "bold" },
 	Hint = { fg = magenta, style = "bold" },
-	Info = { fg = pink, style = "bold" },
+	Info = { fg = gray, style = "bold" },
 	Warning = { fg = yellow, style = "bold" },
 
 	--[[ 4.2... Editor UI  ]]
@@ -191,7 +191,7 @@ local highlight_groups = {
 	--[[ 4.2.10. Messages]]
 	ErrorMsg = { fg = red, style = "bold" },
 	HintMsg = { fg = magenta, style = "italic" },
-	InfoMsg = { fg = pink, style = "italic" },
+	InfoMsg = { fg = gray, style = "italic" },
 	ModeMsg = { fg = yellow },
 	WarningMsg = { fg = orange, style = "bold" },
 	Question = { fg = orange, style = "underline" },
@@ -505,6 +505,11 @@ local highlight_groups = {
 	HopNextKey1 = { fg = magenta },
 	HopNextKey2 = { fg = magenta_dark },
 	HopUnmatched = { fg = gray },
+
+	-- Illuminate
+	IlluminatedWordText = { style = "bold" },
+	IlluminatedWordWrite = { style = "underline" },
+	IlluminatedWordRead = { style = "bold" },
 }
 
 local terminal_colors = {
