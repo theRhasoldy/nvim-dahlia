@@ -16,7 +16,7 @@ local gray = { "#707276", 244, "gray" }
 local gray_light = { "#c0c2c6", 250, "lightgray" }
 local white = { "#eeeeee", 231, "white" }
 
-local cursor_line = { "#242634", 232, "cursorline" }
+local cursor_line = { "#2e2930", 232, "cursorline" }
 
 local red_dark = { "#c92b47", 124, "darkred" }
 local red = { "#e64e6d", 203, "red" }
