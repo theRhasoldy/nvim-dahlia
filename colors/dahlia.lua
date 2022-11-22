@@ -9,12 +9,16 @@
 
 vim.g.colors_name = "dahlia"
 
+local hl = require("dahlia")
+
+local background = { "#13151c", 1, "background" }
+
+local white = { "#eeeeee", 2, "white" }
 local black = { "#0F1115", 235, "black" }
 local gray_darker = { "#36383c", 239, "darkergray" }
 local gray_dark = { "#3c3e42", 236, "darkgrey" }
 local gray = { "#707276", 244, "gray" }
 local gray_light = { "#c0c2c6", 250, "lightgray" }
-local white = { "#eeeeee", 231, "white" }
 
 local cursor_line = { "#2e2930", 232, "cursorline" }
 
@@ -26,7 +30,7 @@ local yellow = { "#fbb45e", 227, "yellow" }
 local orange = { "#F38337", 208, "orange" }
 
 local green_dark = { "#028044", 113, "darkgreen" }
-local green = { "#4DCB8F", 46, "green" }
+local green = { "#4DCB8F", 11, "green" }
 
 local turqoise = { "#66c8aa", 48, "turqoise" }
 local blue = { "#3a9cc1", 63, "darkblue" }
@@ -34,95 +38,51 @@ local blue = { "#3a9cc1", 63, "darkblue" }
 local pink = { "#fbaeb9", 217, "lightpink" }
 local magenta = { "#e583a0", 168, "magenta" }
 local magenta_dark = { "#b14f6a", 126, "darkmagenta" }
-local purple = { "#c37dbf", 171, "purple" }
+local purple = { "#c37dbf", 19, "purple" }
 
 local highlight_group_normal = { fg = gray_light }
 
 local highlight_groups = {
 
-	-- Text Analysis
+	-- Editor {{{
 	Normal = { fg = white },
-	Comment = { fg = gray, style = "italic" },
-	NonText = { fg = gray_darker },
-	EndOfBuffer = "NonText",
-	Whitespace = "NonText",
-	String = { fg = purple },
+	NonText = { fg = gray },
+	ColorColumn = { style = "inverse" },
 
-	-- Literals
-	Constant = { fg = magenta },
-	TSString = { fg = purple },
-	Character = { fg = pink },
-	Number = { fg = pink },
-	Boolean = { fg = magenta, style = "italic" },
-	Float = "Number",
+	-- Cursor
+	Cursor = { style = "inverse" },
+	CursorLine = { bg = cursor_line },
+	CursorIM = "Cursor",
+	CursorColumn = { bg = gray_dark },
 
-	--[[ 4.1.2. Identifiers]]
-	Identifier = { fg = turqoise },
-	Function = { fg = red },
-	Class = { fg = purple, style = "italic" },
-	Parameter = { fg = tan },
-	Attribute = { fg = green },
+	Title = { fg = gray, style = "bold" },
+	Border = { fg = gray_darker },
+	VertSplit = "Border",
+	BorderBG = "Border",
+	FloatBorder = "Border",
+	StatusLine = "Border",
 
-	--[[ 4.1.3. Syntax]]
-	Statement = { fg = turqoise },
-	Conditional = { fg = blue, style = "italic" },
-	Repeat = { fg = turqoise, style = "italic" },
-	Label = { fg = pink, style = "bold" },
-	Operator = { fg = gray_light },
-	Keyword = { fg = blue },
-	Exception = { fg = orange, style = "bold" },
-	Noise = "Delimiter",
-	Variable = { fg = magenta },
-	VariableItalic = { fg = magenta, style = "italic" },
-	Return = { fg = purple },
-	Field = { fg = red },
-
-	--[[ 4.1.4. Metatextual Information]]
-	PreProc = { fg = tan },
-	Include = { fg = green, style = "nocombine" },
-	Define = { fg = red, style = "italic" },
-	Macro = { fg = blue, style = "italic" },
-	Unit = { fg = pink },
-	PreCondit = { fg = tan, style = "italic" },
-
-	--[[ 4.1.5. Semantics]]
-	Type = { fg = purple },
-	StorageClass = { fg = orange, style = "bold" },
-	Structure = { fg = blue, style = "bold" },
-	Typedef = { fg = turqoise, style = "italic" },
-
-	--[[ 4.1.6. Edge Cases]]
-	Special = { fg = blue, style = "bold" },
-	SpecialItalic = { fg = blue, style = "italic" },
-	Snippet = { fg = blue },
-	SpecialChar = { fg = orange, style = "italic" },
-	SpecialKey = "Character",
-	Tag = { fg = red, style = "italic" },
-	Delimiter = { fg = red },
-	PunctDelimiter = { fg = turqoise },
-	SpecialComment = { fg = gray, style = { "bold", "nocombine" } },
-	Debug = "WarningMsg",
-
-	--[[ 4.1.7. Help Syntax]]
-	Underlined = { fg = white, style = "underline", "bold" },
-	Ignore = { fg = gray },
-	Error = { fg = red_dark, style = "bold" },
-	Todo = { fg = yellow, style = "bold" },
-	Hint = { fg = magenta, style = "bold" },
-	Info = { fg = gray, style = "bold" },
-	Warning = { fg = yellow, style = "bold" },
-
-	--[[ 4.2... Editor UI  ]]
-	--[[ 4.2.1. Status Line]]
-	StatusLine = { fg = green, bg = gray_darker },
-	StatusLineNC = function(self)
-		return { fg = gray, bg = self.StatusLine.bg }
+	SignColumn = { fg = background },
+	LineNr = { fg = gray_dark },
+	CursorLineNr = function(self)
+		return { fg = gray, bg = self.LineNr.bg, style = "bold" }
 	end,
-	StatusLineTerm = "StatusLine",
-	StatusLineTermNC = "StatusLineNC",
 
-	--[[ 4.2.2. Separators]]
-	FloatBorder = { fg = gray_darker },
+	QuickFixLine = function(self)
+		return { bg = self.StatusLine.bg }
+	end,
+
+	EndOfBuffer = { fg = gray_darker },
+	whitespace = { fg = gray_darker },
+	MatchParen = { fg = red, style = { "bold", "underline" } },
+
+	-- Pmenu
+	Pmenu = { fg = white, bg = nil },
+	PmenuSbar = { bg = nil },
+	PmenuSel = { bg = cursor_line },
+	PmenuThumb = { bg = gray_dark },
+
+	-- Tabs
 	TabLine = function(self)
 		return { fg = highlight_group_normal.fg, bg = self.StatusLine.bg }
 	end,
@@ -132,38 +92,135 @@ local highlight_groups = {
 	TabLineSel = function(self)
 		return { fg = self.TabLine.fg, bg = highlight_group_normal.bg }
 	end,
-	Title = { style = "bold" },
-	VertSplit = { fg = gray_darker },
-	Border = { fg = gray_darker },
-	BorderBG = { fg = gray_darker },
 
-	--[[ 4.2.3. Conditional Line Highlighting]]
-	Conceal = "NonText",
-	CursorLine = { bg = cursor_line },
-	CursorLineNr = function(self)
-		return { fg = gray, bg = self.LineNr.bg, style = "bold" }
-	end,
-	debugBreakpoint = "ErrorMsg",
-	debugPC = "ColorColumn",
-	LineNr = { fg = gray_dark },
-	QuickFixLine = function(self)
-		return { bg = self.StatusLine.bg }
-	end,
+	-- Telescope
+	TelescopeBorder = "Border",
+	TelescopeTitle = "Title",
+	TelescopeSelection = "CursorLine",
+
+	-- Wilder
+	WilderAccentSel = { fg = magenta, bg = nil, style = "bold" },
+	WilderAccent = { fg = red, bg = cursor_line },
+	WildMenu = "PmenuSel",
+
+	-- Visual Mode
 	Visual = { bg = gray_dark },
 	VisualNOS = { bg = gray_darker },
 
-	--[[ 4.2.4. Popup Menu]]
-	Pmenu = { fg = white, bg = nil },
-	PmenuSbar = { bg = nil },
-	PmenuSel = { bg = cursor_line },
-	PmenuThumb = { bg = gray_dark },
-	WildMenu = "PmenuSel",
+	-- Folding
+	Folded = { fg = pink, style = "italic" },
+	FoldColumn = { fg = pink, style = "bold" },
 
-	--[[ 4.2.5. Folds]]
-	FoldColumn = { bg = gray_darker, style = "bold" },
-	Folded = { fg = black, bg = purple, style = "italic" },
+	-- Files
+	Directory = { fg = gray },
+	DirectoryIcon = { fg = gray_dark },
+	Marker = { fg = gray_light },
+	File = { fg = magenta },
+	Image = { fg = green },
 
-	--[[ 4.2.6. Diffs]]
+	-- Syntax Highlighting
+	Boolean = { fg = magenta, style = "italic" },
+	Character = { fg = pink },
+	Comment = { fg = gray, style = "italic" },
+	Conceal = "NonText",
+	Conditional = { fg = blue, style = "italic" },
+	Constant = { fg = magenta },
+	Decorator = { fg = magenta },
+	Define = { fg = red, style = "italic" },
+	Delimiter = { fg = red },
+	Exception = { fg = orange, style = "bold" },
+	Float = "Number",
+	Function = { fg = red },
+	Identifier = { fg = turqoise },
+	Include = { fg = green, style = "nocombine" },
+	Keyword = { fg = blue },
+	Label = { fg = pink, style = "bold" },
+	Number = { fg = pink },
+	Operator = { fg = gray_light },
+	PreProc = { fg = tan },
+	Repeat = { fg = turqoise, style = "italic" },
+	Special = { fg = blue, style = "bold" },
+	SpecialChar = { fg = orange, style = "italic" },
+	SpecialItalic = { fg = blue, style = "italic" },
+	SpecialComment = { fg = gray, style = { "bold", "nocombine" } },
+	SpecialKey = "Character",
+	Statement = { fg = turqoise },
+	StorageClass = { fg = orange, style = "bold" },
+	String = { fg = purple },
+	Structure = { fg = blue, style = "bold" },
+	Tag = { fg = red, style = "italic" },
+	Type = { fg = purple },
+	Typedef = { fg = turqoise, style = "italic" },
+	PunctDelimiter = { fg = turqoise },
+
+	-- Prompts
+	Todo = { fg = blue, style = "bold" },
+
+	Substitute = { fg = background, bg = pink },
+
+	Search = { style = { "underline", color = orange } },
+	IncSearch = { fg = background, bg = orange },
+
+	ModeMsg = { fg = white },
+	MoreMsg = { fg = pink },
+	Question = { fg = gray, style = "underline" },
+	-- }}}
+
+	-- Diagnostics {{{
+	Warning = { fg = yellow, style = "bold" },
+	Error = { fg = red_dark, style = "bold" },
+	Info = { fg = gray, style = "italic" },
+	Hint = { fg = magenta, style = "italic" },
+
+	WarningMsg = "Warning",
+	ErrorMsg = "Error",
+	InfoMsg = "Info",
+	HintMsg = "Hint",
+
+	DiagnosticWarn = "Warning",
+	DiagnosticError = "Error",
+	DiagnosticInfo = "Info",
+	DiagnosticHint = "Hint",
+
+	DiagnosticUnderlineError = {},
+	DiagnosticUnderlineHint = {},
+	DiagnosticUnderlineInfo = {},
+	DiagnosticUnderlineWarn = {},
+
+	DiagnosticFloatingError = "ErrorMsg",
+	DiagnosticSignError = "DiagnosticFloatingError",
+	DiagnosticFloatingWarn = "WarningMsg",
+	DiagnosticSignWarn = "DiagnosticFloatingWarn",
+	DiagnosticFloatingHint = "HintMsg",
+	DiagnosticSignHint = "DiagnosticFloatingHint",
+	DiagnosticFloatingInfo = "InfoMsg",
+	DiagnosticSignInfo = "DiagnosticFloatingInfo",
+
+	LspDiagnosticsDefaultError = "DiagnosticError",
+	LspDiagnosticsFloatingError = "DiagnosticFloatingError",
+	LspDiagnosticsSignError = "DiagnosticSignError",
+	LspDiagnosticsDefaultWarning = "DiagnosticWarn",
+	LspDiagnosticsFloatingWarning = "DiagnosticFloatingWarn",
+	LspDiagnosticsSignWarning = "DiagnosticSignWarn",
+	LspDiagnosticsDefaultHint = "DiagnosticHint",
+	LspDiagnosticsFloatingHint = "DiagnosticFloatingHint",
+	LspDiagnosticsSignHint = "DiagnosticSignHint",
+	LspDiagnosticsDefaultInformation = "DiagnosticInfo",
+	LspDiagnosticsFloatingInformation = "DiagnosticFloatingInfo",
+	LspDiagnosticsSignInformation = "DiagnosticSignInfo",
+	LspDiagnosticsUnderlineError = "DiagnosticUnderlineError",
+	LspDiagnosticsUnderlineHint = "DiagnosticUnderlineHint",
+	LspDiagnosticsUnderlineInfo = "DiagnosticUnderlineInfo",
+	LspDiagnosticsUnderlineWarning = "DiagnosticUnderlineWarn",
+
+	-- }}}
+	-- Debug {{{
+	Debug = "WarningMsg",
+	debugBreakpoint = "ErrorMsg",
+	debugPC = "ColorColumn",
+	-- }}}
+
+	-- Git {{{
 	DiffAdd = { fg = black, bg = green_dark },
 	DiffChange = {},
 	DiffDelete = function(self)
@@ -172,150 +229,9 @@ local highlight_groups = {
 	DiffText = function(self)
 		return { fg = self.DiffAdd.fg, bg = yellow }
 	end,
-
-	--[[ 4.2.7. Searching]]
-	IncSearch = { style = "inverse" },
-	MatchParen = { fg = green, style = { "bold", "underline" } },
-	Search = { style = { "underline", color = white } },
-
-	--[[ 4.2.8. Spelling]]
-	SpellBad = { style = { "undercurl", color = red } },
-	SpellCap = { style = { "undercurl", color = yellow } },
-	SpellLocal = { style = { "undercurl", color = green } },
-	SpellRare = { style = { "undercurl", color = orange } },
-
-	--[[ 4.2.9. Conditional Column Highlighting]]
-	ColorColumn = { style = "inverse" },
-	SignColumn = {},
-
-	--[[ 4.2.10. Messages]]
-	ErrorMsg = { fg = red, style = "bold" },
-	HintMsg = { fg = magenta, style = "italic" },
-	InfoMsg = { fg = gray, style = "italic" },
-	ModeMsg = { fg = yellow },
-	WarningMsg = { fg = orange, style = "bold" },
-	Question = { fg = orange, style = "underline" },
-
-	--[[ 4.2.11. LSP / Diagnostics ]]
-	Diagnostturqoiserror = "Error",
-	DiagnosticFloatingError = "ErrorMsg",
-	DiagnosticSignError = "DiagnosticFloatingError",
-
-	DiagnosticWarn = "Warning",
-	DiagnosticFloatingWarn = "WarningMsg",
-	DiagnosticSignWarn = "DiagnosticFloatingWarn",
-
-	DiagnosticHint = "Hint",
-	DiagnosticFloatingHint = "HintMsg",
-	DiagnosticSignHint = "DiagnosticFloatingHint",
-
-	DiagnosticInfo = "Info",
-	DiagnosticFloatingInfo = "InfoMsg",
-	DiagnosticSignInfo = "DiagnosticFloatingInfo",
-
-	DiagnosticUnderlineError = {},
-	DiagnosticUnderlineHint = {},
-	DiagnosticUnderlineInfo = {},
-	DiagnosticUnderlineWarn = {},
-
-	LspDiagnosticsDefaultError = "Diagnostturqoiserror",
-	LspDiagnosticsFloatingError = "DiagnosticFloatingError",
-	LspDiagnosticsSignError = "DiagnosticSignError",
-
-	LspDiagnosticsDefaultWarning = "DiagnosticWarn",
-	LspDiagnosticsFloatingWarning = "DiagnosticFloatingWarn",
-	LspDiagnosticsSignWarning = "DiagnosticSignWarn",
-
-	LspDiagnosticsDefaultHint = "DiagnosticHint",
-	LspDiagnosticsFloatingHint = "DiagnosticFloatingHint",
-	LspDiagnosticsSignHint = "DiagnosticSignHint",
-
-	LspDiagnosticsDefaultInformation = "DiagnosticInfo",
-	LspDiagnosticsFloatingInformation = "DiagnosticFloatingInfo",
-	LspDiagnosticsSignInformation = "DiagnosticSignInfo",
-
-	LspDiagnosticsUnderlineError = "DiagnosticUnderlineError",
-	LspDiagnosticsUnderlineHint = "DiagnosticUnderlineHint",
-	LspDiagnosticsUnderlineInfo = "DiagnosticUnderlineInfo",
-	LspDiagnosticsUnderlineWarning = "DiagnosticUnderlineWarn",
-
-	--[[ 4.2.12. Cursor ]]
-	Cursor = { style = "inverse" },
-	CursorIM = "Cursor",
-	CursorColumn = { bg = gray_dark },
-
-	--[[ 4.2.13. Misc ]]
-	Directory = { fg = gray },
-	DirectoryIcon = { fg = gray_dark },
-	Marker = { fg = gray_light },
-	File = { fg = magenta },
-	Image = { fg = green },
-
-	--[[ 4.3. Programming Languages ]]
-
-	TSVariable = "Variable",
-	TSConstant = "Include",
-	TSConstBuiltIn = "Include",
-	TSFunction = "Function",
-	TSField = "Field",
-	TSParameter = "Parameter",
-	TSAttribute = "Attribute",
-	TSProperty = "Special",
-	TSkeyword = "Special",
-	TSkeywordReturn = "Return",
-
-	--[[ 4.3.4. CSS ]]
-	cssTSProperty = "Function",
-	cssTSType = "Variable",
-	cssTSKeyword = "Special",
-	cssTSPunctDelimeter = "PunctDelimiter",
-	scssTSProperty = "Function",
-	scssTSType = "VariableItalic",
-	scssTSVariable = "Variable",
-	scssTSAmpersand = "Special",
-	scssTSKeyword = "Special",
-	scssTSPunctDelimeter = "PunctDelimiter",
-
-	-- Dart
-	dartTSType = "Variable",
-	dartTSProperty = "Identifier",
-	dartTSKeyword = "SpecialItalic",
-
-	--[[ 4.3.13. Markdown ]]
-	markdownCode = "mkdCode",
-	markdownCodeDelimiter = "mkdCodeDelimiter",
-	markdownH1 = { fg = blue, style = "bold" },
-	markdownH2 = { fg = orange, style = "bold" },
-	markdownH3 = { fg = yellow, style = "bold" },
-	markdownH4 = { fg = green_dark, style = "bold" },
-	markdownH5 = { fg = turqoise, style = "bold" },
-	markdownH6 = { fg = purple, style = "bold" },
-	markdownLinkDelimiter = "mkdDelimiter",
-	markdownLinkText = "mkdLink",
-	markdownLinkTextDelimiter = "markdownLinkDelimiter",
-	markdownUrl = "mkdURL",
-	mkdBold = "Ignore",
-	mkdBoldItalic = "mkdBold",
-	mkdCode = "Keyword",
-	mkdCodeDelimiter = "mkdBold",
-	mkdCodeEnd = "mkdCodeStart",
-	mkdCodeStart = "mkdCodeDelimiter",
-	mkdDelimiter = "Delimiter",
-	mkdHeading = "Delimiter",
-	mkdItalic = "mkdBold",
-	mkdLineBreak = "NonText",
-	mkdLink = "Underlined",
-	mkdListItem = "Special",
-	mkdRule = function(self)
-		return { fg = self.Ignore.fg, style = { "underline", color = self.Delimiter.fg } }
-	end,
-	mkdURL = "htmlString",
-
-	--]]
-
-	--[[ 4.3.34. Git ]]
 	diffAdded = "DiffAdd",
 	diffRemoved = "DiffDelete",
+
 	gitcommitHeader = "SpecialComment",
 	gitcommitDiscardedFile = "gitcommitSelectedFile",
 	gitcommitOverFlow = "Error",
@@ -340,19 +256,33 @@ local highlight_groups = {
 	gitrebaseSquash = "Macro",
 	gitrebaseSummary = "Title",
 
-	--[[ 4.3.35. Vimtex ]]
-	texMathRegion = "Number",
-	texMathSub = "Number",
-	texMathSuper = "Number",
-	texMathRegionX = "Number",
-	texMathRegionXX = "Number",
+	-- Git Line Highlight
+	GitGutterAdd = { fg = green },
+	GitGutterChange = { fg = orange },
+	GitGutterDelete = { fg = red },
+	GitGutterChangeDelete = { fg = purple },
 
-	--[[ 4.3.37 Help ]]
-	helpHeader = "Label",
-	helpOption = "Keyword",
-	helpHeadline = "Title",
-	helpSectionDelim = "Delimiter",
-	helpHyperTextJump = "Underlined",
+	GitSignsAdd = "GitGutterAdd",
+	GitSignsChange = "GitGutterChange",
+	GitSignsDelete = "GitGutterDelete",
+	-- }}}
+
+	Snippet = { fg = blue },
+
+	Underlined = { fg = white, style = "underline", "bold" },
+	Ignore = { fg = gray },
+
+	--[[ 4.2.4. Popup Menu]]
+	--[[ 4.2.5. Folds]]
+
+	--[[ 4.2.6. Diffs]]
+	--[[ 4.2.7. Searching]]
+
+	--[[ 4.2.8. Spelling]]
+	SpellBad = { style = { "undercurl", color = red } },
+	SpellCap = { style = { "undercurl", color = yellow } },
+	SpellLocal = { style = { "undercurl", color = green } },
+	SpellRare = { style = { "undercurl", color = orange } },
 
 	--[[ 4.3.38 Man ]]
 	-- manBold = function(self) return vim.tbl_extend('force', self.mkdCode, {style = 'nocombine'}) end,
@@ -370,28 +300,6 @@ local highlight_groups = {
 	ALEWarningSign = "DiagnosticSignWarn",
 
 	--[[ 4.4.4. vim-gitgutter / vim-signify / gitsigns.nvim ]]
-	GitGutterAdd = { fg = green },
-	GitGutterChange = { fg = yellow },
-	GitGutterDelete = { fg = red },
-	GitGutterChangeDelete = { fg = orange },
-
-	SignifySignAdd = "GitGutterAdd",
-	SignifySignChange = "GitGutterChange",
-	SignifySignDelete = "GitGutterDelete",
-	SignifySignChangeDelete = "GitGutterChangeDelete",
-
-	GitSignsAdd = "GitGutterAdd",
-	GitSignsChange = "GitGutterChange",
-	GitSignsDelete = "GitGutterDelete",
-
-	--[[ 4.4.8. nvim-treesitter ]]
-	TSConstBuiltin = "TSConstant",
-	TSConstructor = "TSFunction",
-	TSDanger = "ErrorMsg",
-	TSFuncBuiltin = "TSFunction",
-	TSTag = "Tag",
-	TSWarning = "WarningMsg",
-
 	--[[ 4.4.12. LSPSaga ]]
 	DefinitionCount = "Number",
 	DefinitionIcon = "Special",
@@ -495,11 +403,6 @@ local highlight_groups = {
 	NeoTreeGitDeleted = "GitGutterDelete",
 	NeoTreeGitAdded = "GitGutterAdd",
 
-	-- Telescope
-	TelescopeBorder = "Border",
-	TelescopeTitle = "Marker",
-	TelescopeSelection = "CursorLine",
-
 	-- Hop
 	HopNextKey = { fg = magenta },
 	HopNextKey1 = { fg = magenta },
@@ -511,6 +414,60 @@ local highlight_groups = {
 	IlluminatedWordWrite = { style = "underline" },
 	IlluminatedWordRead = { style = "bold" },
 }
+
+-- Treesitter highlight {{{
+hl.highlight("@boolean", { fg = white, style = "bold" })
+hl.highlight("@attribute", { fg = white, style = "bold" })
+hl.highlight("@constructor", { fg = white, style = "bold" })
+hl.highlight("@conditional", { fg = white, style = "bold" })
+hl.highlight("@constant", { fg = white, style = "bold" })
+hl.highlight("@const.builtin", { fg = white, style = "bold" })
+hl.highlight("@const.macro", { fg = white, style = "bold" })
+hl.highlight("@error", { fg = white, style = "bold" })
+hl.highlight("@exception", { fg = white, style = "bold" })
+hl.highlight("@field", { fg = white, style = "bold" })
+hl.highlight("@float", { fg = white, style = "bold" })
+hl.highlight("@func.builtin", { fg = white, style = "bold" })
+hl.highlight("@func.macro", { fg = white, style = "bold" })
+hl.highlight("@include", { fg = white, style = "bold" })
+hl.highlight("@keyword", { fg = white, style = "bold" })
+hl.highlight("@keyword.function", { fg = white, style = "bold" })
+hl.highlight("@keyword.operator", { fg = white, style = "bold" })
+hl.highlight("@label", { fg = white, style = "bold" })
+hl.highlight("@method", { fg = white, style = "bold" })
+hl.highlight("@namespace", { fg = white, style = "bold" })
+hl.highlight("@number", { fg = white, style = "bold" })
+hl.highlight("@operator", { fg = white, style = "bold" })
+hl.highlight("@parameter", { fg = white, style = "bold" })
+hl.highlight("@parameter.reference", { fg = white, style = "bold" })
+hl.highlight("@property", { fg = white, style = "bold" })
+hl.highlight("@punct.delimiter", { fg = white, style = "bold" })
+hl.highlight("@punct.bracket", { fg = white, style = "bold" })
+hl.highlight("@punct.special", { fg = white, style = "bold" })
+hl.highlight("@repeat", { fg = white, style = "bold" })
+hl.highlight("@string", { fg = white, style = "bold" })
+hl.highlight("@string.regex", { fg = white, style = "bold" })
+hl.highlight("@string.escape", { fg = white, style = "bold" })
+hl.highlight("@tag", { fg = white, style = "bold" })
+hl.highlight("@tag.delimiter", { fg = white, style = "bold" })
+hl.highlight("@text", { fg = white, style = "bold" })
+hl.highlight("@title", { fg = white, style = "bold" })
+hl.highlight("@literal", { fg = white, style = "bold" })
+hl.highlight("@type", { fg = white, style = "bold" })
+hl.highlight("@type.builtin", { fg = white, style = "bold" })
+hl.highlight("@variable", { fg = white, style = "bold" })
+hl.highlight("@variable.builtin", { fg = white, style = "bold" })
+hl.highlight("@strong", { fg = white, style = "bold" })
+hl.highlight("@comment", { fg = white, style = "bold" })
+hl.highlight("@function", { fg = white, style = "bold" })
+hl.highlight("@symbol", { fg = white, style = "bold" })
+hl.highlight("@emphasis", { fg = white, style = "bold" })
+hl.highlight("@underline", { fg = white, style = "bold" })
+hl.highlight("@strike", { fg = white, style = "bold" })
+hl.highlight("@uri", { fg = white, style = "bold" })
+hl.highlight("@current.scope", { fg = white, style = "bold" })
+hl.highlight("TreesitterContext", { fg = white, style = "bold" })
+-- }}}
 
 local terminal_colors = {
 	[1] = black,
