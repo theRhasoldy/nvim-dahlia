@@ -14,31 +14,30 @@ local hl = require("dahlia")
 local background = { "#13151c", 1, "background" }
 
 local white = { "#eeeeee", 2, "white" }
-local black = { "#0F1115", 235, "black" }
-local gray_darker = { "#36383c", 239, "darkergray" }
-local gray_dark = { "#3c3e42", 236, "darkgrey" }
-local gray = { "#707276", 244, "gray" }
-local gray_light = { "#c0c2c6", 250, "lightgray" }
+local black = { "#0F1115", 3, "black" }
+local gray_darker = { "#36383c", 4, "darkergray" }
+local gray_dark = { "#3c3e42", 5, "darkgray" }
+local gray = { "#707276", 6, "gray" }
+local gray_light = { "#c0c2c6", 7, "lightgray" }
 
-local cursor_line = { "#2e2930", 232, "cursorline" }
+local cursor_line = { "#2e2930", 8, "cursorline" }
 
-local red_dark = { "#c92b47", 124, "darkred" }
-local red = { "#e64e6d", 203, "red" }
+local red = { "#FF5E77", 9, "red" }
+local red_accent = { "#EC6A88", 10, "redaccent" }
 
-local tan = { "#E59875", 221, "tan" }
-local yellow = { "#fbb45e", 227, "yellow" }
-local orange = { "#F38337", 208, "orange" }
+local yellow = { "#ffcda2", 11, "yellow" }
+local tan = { "#E59875", 12, "tan" }
+local orange = { "#f7a881", 13, "orange" }
 
-local green_dark = { "#028044", 113, "darkgreen" }
-local green = { "#4DCB8F", 11, "green" }
+local pink = { "#e4abaf", 14, "pink" }
+local magenta = { "#db8fb0", 15, "magenta" }
+local purple = { "#bb98db", 16, "purple" }
 
-local turqoise = { "#66c8aa", 48, "turqoise" }
-local blue = { "#3a9cc1", 63, "darkblue" }
+local blue = { "#5ba3e3", 17, "blue" }
 
-local pink = { "#fbaeb9", 217, "lightpink" }
-local magenta = { "#e583a0", 168, "magenta" }
-local magenta_dark = { "#b14f6a", 126, "darkmagenta" }
-local purple = { "#c37dbf", 19, "purple" }
+local green = { "#64d08d", 18, "green" }
+
+local cyan = { "#89DDFF", 19, "cyan" }
 
 local highlight_group_normal = { fg = gray_light }
 
@@ -119,39 +118,40 @@ local highlight_groups = {
 	Image = { fg = green },
 
 	-- Syntax Highlighting
-	Boolean = { fg = magenta, style = "italic" },
+	Boolean = { fg = green, style = "italic" },
+	Variable = { fg = red_accent },
+	Conditional = { fg = purple, style = "italic" },
+	Repeat = { fg = purple, style = "italic" },
 	Character = { fg = pink },
+	Keyword = { fg = magenta, style = "bold" },
+	Constant = { fg = green, style = "italic" },
+	Function = { fg = purple, style = "bold" },
+	Delimiter = { fg = magenta },
+	Type = { fg = red_accent },
+	String = { fg = pink },
+	Include = { fg = green },
+	Number = { fg = yellow },
+	Float = "Number",
 	Comment = { fg = gray, style = "italic" },
+	Operator = { fg = pink },
+	Tag = { fg = magenta, style = "bold" },
 	Conceal = "NonText",
-	Conditional = { fg = blue, style = "italic" },
-	Constant = { fg = magenta },
 	Decorator = { fg = magenta },
 	Define = { fg = red, style = "italic" },
-	Delimiter = { fg = red },
 	Exception = { fg = orange, style = "bold" },
-	Float = "Number",
-	Function = { fg = red },
-	Identifier = { fg = turqoise },
-	Include = { fg = green, style = "nocombine" },
-	Keyword = { fg = blue },
+	Identifier = { fg = cyan },
 	Label = { fg = pink, style = "bold" },
-	Number = { fg = pink },
-	Operator = { fg = gray_light },
 	PreProc = { fg = tan },
-	Repeat = { fg = turqoise, style = "italic" },
 	Special = { fg = blue, style = "bold" },
 	SpecialChar = { fg = orange, style = "italic" },
 	SpecialItalic = { fg = blue, style = "italic" },
 	SpecialComment = { fg = gray, style = { "bold", "nocombine" } },
 	SpecialKey = "Character",
-	Statement = { fg = turqoise },
+	Statement = { fg = cyan },
 	StorageClass = { fg = orange, style = "bold" },
-	String = { fg = purple },
 	Structure = { fg = blue, style = "bold" },
-	Tag = { fg = red, style = "italic" },
-	Type = { fg = purple },
-	Typedef = { fg = turqoise, style = "italic" },
-	PunctDelimiter = { fg = turqoise },
+	Typedef = { fg = cyan, style = "italic" },
+	PunctDelimiter = { fg = cyan },
 
 	-- Prompts
 	Todo = { fg = blue, style = "bold" },
@@ -168,7 +168,7 @@ local highlight_groups = {
 
 	-- Diagnostics {{{
 	Warning = { fg = yellow, style = "bold" },
-	Error = { fg = red_dark, style = "bold" },
+	Error = { fg = red, style = "bold" },
 	Info = { fg = gray, style = "italic" },
 	Hint = { fg = magenta, style = "italic" },
 
@@ -221,7 +221,7 @@ local highlight_groups = {
 	-- }}}
 
 	-- Git {{{
-	DiffAdd = { fg = black, bg = green_dark },
+	DiffAdd = { fg = black, bg = green },
 	DiffChange = {},
 	DiffDelete = function(self)
 		return { fg = self.DiffAdd.fg, bg = red }
@@ -272,35 +272,18 @@ local highlight_groups = {
 	Underlined = { fg = white, style = "underline", "bold" },
 	Ignore = { fg = gray },
 
-	--[[ 4.2.4. Popup Menu]]
-	--[[ 4.2.5. Folds]]
-
-	--[[ 4.2.6. Diffs]]
-	--[[ 4.2.7. Searching]]
-
-	--[[ 4.2.8. Spelling]]
+	-- Spelling
 	SpellBad = { style = { "undercurl", color = red } },
 	SpellCap = { style = { "undercurl", color = yellow } },
 	SpellLocal = { style = { "undercurl", color = green } },
 	SpellRare = { style = { "undercurl", color = orange } },
 
-	--[[ 4.3.38 Man ]]
-	-- manBold = function(self) return vim.tbl_extend('force', self.mkdCode, {style = 'nocombine'}) end,
+	-- MAN
 	manOptionDesc = "Special",
 	manReference = "Tag",
 	manUnderline = "Label",
 
-	--[[ 4.4. Plugins
-		Everything in this section is OPTIONAL. Feel free to remove everything
-		here if you don't want to define it, or add more if there's something
-		missing.
-	]]
-	--[[ 4.4.1. ALE ]]
-	ALEErrorSign = "DiagnosticSignError",
-	ALEWarningSign = "DiagnosticSignWarn",
-
-	--[[ 4.4.4. vim-gitgutter / vim-signify / gitsigns.nvim ]]
-	--[[ 4.4.12. LSPSaga ]]
+	-- LspSaga
 	DefinitionCount = "Number",
 	DefinitionIcon = "Special",
 	ReferencesCount = "Number",
@@ -315,7 +298,7 @@ local highlight_groups = {
 	LspSagaCodeActionBorder = { fg = red },
 	LspSagaRenameBorder = { fg = red },
 
-	--[[ 4.4.15. todo-comments.nvim ]]
+	-- Todo
 	TodoFgFIX = function(self)
 		return { fg = self.ErrorMsg.fg }
 	end,
@@ -324,11 +307,10 @@ local highlight_groups = {
 	end,
 	TodoFgNOTE = "HintMsg",
 	TodoFgPERF = "InfoMsg",
-	TodoFgTODO = { fg = turqoise, style = "italic" },
+	TodoFgTODO = { fg = cyan, style = "italic" },
 	TodoFgWARN = function(self)
 		return { fg = self.WarningMsg.fg }
 	end,
-
 	TodoBgFIX = function(self)
 		return { fg = black, bg = self.ErrorMsg.fg, style = { "bold", "italic", "nocombine" } }
 	end,
@@ -341,11 +323,10 @@ local highlight_groups = {
 	TodoBgPERF = function(self)
 		return { fg = black, bg = self.Info.bg, style = { "bold", "italic", "nocombine" } }
 	end,
-	TodoBgTODO = { fg = black, bg = turqoise, style = { "bold", "italic", "nocombine" } },
+	TodoBgTODO = { fg = black, bg = cyan, style = { "bold", "italic", "nocombine" } },
 	TodoBgWARN = function(self)
 		return { fg = black, bg = self.Warning.bg, style = { "bold", "italic", "nocombine" } }
 	end,
-
 	TodoSignFIX = "TodoFgFIX",
 	TodoSignHACK = "TodoFgHACK",
 	TodoSignNOTE = "TodoFgNOTE",
@@ -355,7 +336,7 @@ local highlight_groups = {
 
 	Twilight = { fg = gray_dark, bg = nil },
 
-	--[[ 4.4.16. nvim-cmp ]]
+	-- CMP
 	CmpItemAbbr = "Operator",
 	CmpItemAbbrMatchDefault = "Underlined",
 	CmpItemAbbrMatchFuzzyDefault = { fg = highlight_group_normal.fg, style = { "nocombine", "underline" } },
@@ -404,87 +385,93 @@ local highlight_groups = {
 	NeoTreeGitAdded = "GitGutterAdd",
 
 	-- Hop
-	HopNextKey = { fg = magenta },
-	HopNextKey1 = { fg = magenta },
-	HopNextKey2 = { fg = magenta_dark },
+	HopNextKey = { fg = pink },
+	HopNextKey1 = { fg = pink },
+	HopNextKey2 = { fg = magenta },
 	HopUnmatched = { fg = gray },
 
 	-- Illuminate
 	IlluminatedWordText = { style = "bold" },
 	IlluminatedWordWrite = { style = "underline" },
 	IlluminatedWordRead = { style = "bold" },
-}
 
--- Treesitter highlight {{{
-hl.highlight("@boolean", { fg = white, style = "bold" })
-hl.highlight("@attribute", { fg = white, style = "bold" })
-hl.highlight("@constructor", { fg = white, style = "bold" })
-hl.highlight("@conditional", { fg = white, style = "bold" })
-hl.highlight("@constant", { fg = white, style = "bold" })
-hl.highlight("@const.builtin", { fg = white, style = "bold" })
-hl.highlight("@const.macro", { fg = white, style = "bold" })
-hl.highlight("@error", { fg = white, style = "bold" })
-hl.highlight("@exception", { fg = white, style = "bold" })
-hl.highlight("@field", { fg = white, style = "bold" })
-hl.highlight("@float", { fg = white, style = "bold" })
-hl.highlight("@func.builtin", { fg = white, style = "bold" })
-hl.highlight("@func.macro", { fg = white, style = "bold" })
-hl.highlight("@include", { fg = white, style = "bold" })
-hl.highlight("@keyword", { fg = white, style = "bold" })
-hl.highlight("@keyword.function", { fg = white, style = "bold" })
-hl.highlight("@keyword.operator", { fg = white, style = "bold" })
-hl.highlight("@label", { fg = white, style = "bold" })
-hl.highlight("@method", { fg = white, style = "bold" })
-hl.highlight("@namespace", { fg = white, style = "bold" })
-hl.highlight("@number", { fg = white, style = "bold" })
-hl.highlight("@operator", { fg = white, style = "bold" })
-hl.highlight("@parameter", { fg = white, style = "bold" })
-hl.highlight("@parameter.reference", { fg = white, style = "bold" })
-hl.highlight("@property", { fg = white, style = "bold" })
-hl.highlight("@punct.delimiter", { fg = white, style = "bold" })
-hl.highlight("@punct.bracket", { fg = white, style = "bold" })
-hl.highlight("@punct.special", { fg = white, style = "bold" })
-hl.highlight("@repeat", { fg = white, style = "bold" })
-hl.highlight("@string", { fg = white, style = "bold" })
-hl.highlight("@string.regex", { fg = white, style = "bold" })
-hl.highlight("@string.escape", { fg = white, style = "bold" })
-hl.highlight("@tag", { fg = white, style = "bold" })
-hl.highlight("@tag.delimiter", { fg = white, style = "bold" })
-hl.highlight("@text", { fg = white, style = "bold" })
-hl.highlight("@title", { fg = white, style = "bold" })
-hl.highlight("@literal", { fg = white, style = "bold" })
-hl.highlight("@type", { fg = white, style = "bold" })
-hl.highlight("@type.builtin", { fg = white, style = "bold" })
-hl.highlight("@variable", { fg = white, style = "bold" })
-hl.highlight("@variable.builtin", { fg = white, style = "bold" })
-hl.highlight("@strong", { fg = white, style = "bold" })
-hl.highlight("@comment", { fg = white, style = "bold" })
-hl.highlight("@function", { fg = white, style = "bold" })
-hl.highlight("@symbol", { fg = white, style = "bold" })
-hl.highlight("@emphasis", { fg = white, style = "bold" })
-hl.highlight("@underline", { fg = white, style = "bold" })
-hl.highlight("@strike", { fg = white, style = "bold" })
-hl.highlight("@uri", { fg = white, style = "bold" })
-hl.highlight("@current.scope", { fg = white, style = "bold" })
-hl.highlight("TreesitterContext", { fg = white, style = "bold" })
--- }}}
+	-- Treesitter highlight {{{
+	["@boolean"] = { fg = green, style = "italic" },
+	["@variable"] = { fg = red_accent },
+	["@variable.builtin"] = { fg = red_accent },
+	["@type.definition"] = { fg = red_accent },
+	["@field"] = { fg = magenta, style = "bold" },
+	["@parameter"] = { fg = magenta, style = "bold" },
+	["@label"] = { fg = magenta, style = "bold" },
+	["@attribute"] = { fg = green, style = "bold" },
+	["@operator"] = { fg = pink, style = "bold" },
+	["@include"] = { fg = green },
+	["@constant"] = { fg = green, style = "italic" },
+	["@const.builtin"] = { fg = green, style = "italic" },
+	["@const.macro"] = { fg = green, style = "italic" },
+	["@keyword"] = { fg = magenta, style = "bold" },
+	["@keyword.function"] = { fg = purple },
+	["@keyword.operator"] = { fg = green },
+	["@keyword.return"] = { fg = orange },
+	["@function"] = { fg = red_accent },
+	["@function.call"] = { fg = blue },
+	["@function.builtin"] = { fg = red_accent },
+	["@function.macro"] = { fg = red_accent },
+	["@property"] = { fg = purple },
+	["@type"] = { fg = red_accent },
+	["@method"] = { fg = blue },
+	["@error"] = { fg = blue, style = "bold" },
+	["@string"] = { fg = pink },
+	["@comment"] = { fg = gray, style = "italic" },
+	["@punctuation.bracket"] = { fg = purple },
+	["@constructor"] = { fg = blue },
+	["@number"] = { fg = yellow },
+	["@conditional"] = { fg = purple, style = "italic" },
+	["@repeat"] = { fg = purple, style = "italic" },
+	["@tag"] = { fg = magenta, style = "bold" },
+	["@tag.attribute"] = { fg = red_accent, style = "bold" },
+	["@tag.delimiter"] = { fg = magenta, style = "bold" },
+	["@uri"] = { fg = white, style = "bold" },
+	["@text"] = { fg = white },
+	["@text.uri"] = { fg = purple },
+	["@text.title"] = { fg = blue },
+	["@exception"] = { fg = white },
+	["@float"] = { fg = white },
+	["@namespace"] = { fg = white },
+	["@parameter.reference"] = { fg = white },
+	["@punct.delimiter"] = { fg = white },
+	["@punct.special"] = { fg = white },
+	["@string.regex"] = { fg = white },
+	["@string.escape"] = { fg = white },
+	["@title"] = { fg = white },
+	["@literal"] = { fg = white },
+	["@type.builtin"] = { fg = white },
+	["@strong"] = { fg = white },
+	["@symbol"] = { fg = white },
+	["@emphasis"] = { fg = white },
+	["@underline"] = { fg = white },
+	["@strike"] = { fg = white },
+	["@current.scope"] = { fg = white },
+	["TreesitterContext"] = { fg = white },
+	-- }}}
+}
 
 local terminal_colors = {
 	[1] = black,
-	[2] = red_dark,
-	[3] = green_dark,
+	[2] = red,
+	[3] = green,
 	[4] = orange,
 	[5] = blue,
-	[6] = magenta_dark,
+	[6] = magenta,
 	[7] = purple,
 	[8] = gray,
 	[9] = gray_dark,
 	[10] = red,
 	[11] = green,
 	[12] = yellow,
-	[13] = turqoise,
+	[13] = cyan,
 	[14] = purple,
-	[15] = turqoise,
+	[15] = cyan,
 	[16] = gray_light,
 }
 
